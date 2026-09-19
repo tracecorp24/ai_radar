@@ -12,10 +12,7 @@ import {
   type RisingCategory,
   type RisingTopicView
 } from "@/components/trends/rising-topics-panel";
-import {
-  SidebarTrendList,
-  SidebarTrendTabs
-} from "@/components/trends/sidebar-trend-list";
+import { SidebarTrendTabs } from "@/components/trends/sidebar-trend-list";
 import { getDashboardCache } from "@/lib/local-db";
 import { formatDateTime, formatNumber } from "@/lib/formatters";
 import { isGitHubTrendCandidate } from "@/lib/github/trend-client";
@@ -425,15 +422,11 @@ export default async function HomePage({
         </div>
 
         <aside className="space-y-4 xl:sticky xl:top-20">
-          <SidebarTrendList
-            source="github"
-            items={githubTrends}
-            emptyText="Henüz GitHub trendi yok."
-            updatedAt={githubUpdatedAt}
-          />
           <SidebarTrendTabs
+            githubItems={githubTrends}
             arxivItems={arxivTrends}
             huggingFaceItems={huggingFaceTrends}
+            githubUpdatedAt={githubUpdatedAt}
             arxivUpdatedAt={arxivUpdatedAt}
             huggingFaceUpdatedAt={huggingFaceUpdatedAt}
           />

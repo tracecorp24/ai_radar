@@ -722,21 +722,29 @@ function TrendItems({ items, emptyText }: { items: ContentItem[]; emptyText: str
 }
 
 export function SidebarTrendTabs({
+  githubItems,
   arxivItems,
   huggingFaceItems,
+  githubUpdatedAt,
   arxivUpdatedAt,
   huggingFaceUpdatedAt
 }: {
+  githubItems?: ContentItem[];
   arxivItems: ContentItem[];
   huggingFaceItems: ContentItem[];
+  githubUpdatedAt?: string;
   arxivUpdatedAt?: string;
   huggingFaceUpdatedAt?: string;
 }) {
-  const [activeSource, setActiveSource] = useState<"arxiv" | "huggingface" | "queue">("arxiv");
-  const activeItems = activeSource === "arxiv" ? arxivItems : huggingFaceItems;
-  const activeUpdatedAt = activeSource === "arxiv" ? arxivUpdatedAt : huggingFaceUpdatedAt;
+  const [activeSource, setActiveSource] = useState<"github" | "arxiv" | "huggingface" | "queue">("github");
+  const activeItems = activeSource === "github" ? (githubItems ?? []) : activeSource === "arxiv" ? arxivItems : huggingFaceItems;
+  const activeUpdatedAt = activeSource === "github" ? githubUpdatedAt : activeSource === "arxiv" ? arxivUpdatedAt : huggingFaceUpdatedAt;
   const activeEmptyText =
-    activeSource === "arxiv" ? "Henüz arXiv trendi yok." : "Henüz Hugging Face trendi yok.";
+    activeSource === "github"
+      ? "Henüz GitHub trendi yok."
+      : activeSource === "arxiv"
+        ? "Henüz arXiv trendi yok."
+        : "Henüz Hugging Face trendi yok.";
   const activeTitle = activeSource === "queue" ? "Makale İndirme ve İşleme Kuyruğu" : sourceTitle(activeSource);
 
   return (
@@ -744,9 +752,9 @@ export function SidebarTrendTabs({
       <div
         role="tablist"
         aria-label="Trend kaynağı"
-        className="grid grid-cols-3 gap-1 border-b border-border/70 p-2"
+        className="grid grid-cols-4 gap-1 border-b border-border/70 p-1.5"
       >
-        {(["arxiv", "huggingface", "queue"] as const).map((source) => {
+        {(["github", "arxiv", "huggingface", "queue"] as const).map((source) => {
           const isActive = activeSource === source;
           return (
             <button
@@ -756,14 +764,14 @@ export function SidebarTrendTabs({
               aria-selected={isActive}
               aria-controls={`${source}-trend-panel`}
               onClick={() => setActiveSource(source)}
-              className={`flex items-center justify-center gap-1 rounded-lg px-2 py-2 text-xs font-medium transition ${
+              className={`flex items-center justify-center gap-1 rounded-lg px-1.5 py-1.5 text-[11px] font-medium transition ${
                 isActive
                   ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
               {source === "queue" ? <Download className="h-3.5 w-3.5 text-cyan-400" /> : sourceIcon(source)}
-              {source === "arxiv" ? "arXiv" : source === "huggingface" ? "Hugging Face" : "Kuyruk"}
+              {source === "github" ? "GitHub" : source === "arxiv" ? "arXiv" : source === "huggingface" ? "HF" : "Kuyruk"}
             </button>
           );
         })}
