@@ -87,15 +87,25 @@ export default async function HomePage({
     getTrendingModels()
   ]);
   const freshnessCutoff = Date.now() - freshnessDays * 24 * 60 * 60 * 1000;
+  const homepage6mCutoff = Date.now() - 180 * 24 * 60 * 60 * 1000;
+
+  const isHomepageGitHubCandidate = (item: ContentItem) => {
+    if (item.source !== "github") return true;
+    const createdAt = item.github?.createdAt ? new Date(item.github.createdAt).getTime() : 0;
+    const publishedAt = new Date(item.publishedAt).getTime();
+    const isRecent = publishedAt >= homepage6mCutoff || (createdAt > 0 && createdAt >= homepage6mCutoff);
+    return isRecent && isGitHubTrendCandidate(item);
+  };
+
   const freshContent = allContent.filter(
     (item) => new Date(item.publishedAt).getTime() >= freshnessCutoff
   );
   const ranked = freshContent
-    .filter(isGitHubTrendCandidate)
+    .filter(isHomepageGitHubCandidate)
     .sort((a, b) => compareForPeriod(a, b, freshnessDays));
   const editorialRanked = freshContent
     .filter((item) => item.source === "arxiv" || item.source === "github")
-    .filter(isGitHubTrendCandidate)
+    .filter(isHomepageGitHubCandidate)
     .sort((a, b) => compareForPeriod(a, b, freshnessDays));
   const dailySignal = editorialRanked[0] ?? featured;
   const githubTrends = ranked.filter((item) => item.source === "github");
