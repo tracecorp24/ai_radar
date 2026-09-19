@@ -443,6 +443,7 @@ function AllTrendsDialog({
   const [sort, setSort] = useState<SortKey>("trend");
   const [minimumScore, setMinimumScore] = useState("all");
   const [topic, setTopic] = useState("all");
+  const [timeRange, setTimeRange] = useState<"180d" | "365d" | "all">("180d");
 
   const topics = useMemo(
     () =>
@@ -457,7 +458,9 @@ function AllTrendsDialog({
   const paperScoresById = useMemo(() => new Map(items.map((item) => [item.id, paperScores(item, scoreContext)])), [items, scoreContext]);
   const filteredItems = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("tr");
+    const cutoff = timeRange === "180d" ? Date.now() - 180 * 86_400_000 : timeRange === "365d" ? Date.now() - 365 * 86_400_000 : 0;
     return items
+      .filter((item) => !cutoff || new Date(item.publishedAt).getTime() >= cutoff)
       .filter(
         (item) =>
           !normalizedQuery ||
@@ -472,7 +475,7 @@ function AllTrendsDialog({
           (item.matchedTopics?.length ? item.matchedTopics : item.tags).includes(topic)
       )
       .sort((a, b) => sortValue(b, sort, paperScoresById.get(b.id)) - sortValue(a, sort, paperScoresById.get(a.id)) || trendScore(b) - trendScore(a));
-  }, [items, minimumScore, paperScoresById, query, sort, source, topic]);
+  }, [items, minimumScore, paperScoresById, query, sort, source, timeRange, topic]);
 
   return (
     <Dialog>
@@ -491,12 +494,12 @@ function AllTrendsDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
             {source === "github"
-              ? "GitHub projelerini tüm puan ve topluluk sinyalleriyle karşılaştırın."
+              ? "GitHub projelerini tüm puan, yenilik ivmesi ve topluluk sinyalleriyle karşılaştırın."
               : "Makaleleri güncellik, konu ivmesi, özgünlük sinyali ve araştırma kapsamına göre karşılaştırın."}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-3 border-b border-border/70 bg-muted/20 p-4 md:grid-cols-[minmax(0,1.5fr)_minmax(160px,0.8fr)_minmax(140px,0.6fr)_minmax(160px,0.8fr)] sm:px-6">
+        <div className="grid gap-3 border-b border-border/70 bg-muted/20 p-4 md:grid-cols-5 sm:px-6">
           <label className="relative">
             <span className="sr-only">Trendlerde ara</span>
             <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -506,6 +509,18 @@ function AllTrendsDialog({
               className="pl-9"
               placeholder="Başlık, özet, yazar veya etiket ara"
             />
+          </label>
+          <label>
+            <span className="sr-only">Zaman aralığı</span>
+            <Select
+              value={timeRange}
+              onChange={(event) => setTimeRange(event.target.value as "180d" | "365d" | "all")}
+              aria-label="Zaman aralığı"
+            >
+              <option value="180d">Son 6 Ay (Önerilen)</option>
+              <option value="365d">Son 1 Yıl</option>
+              <option value="all">Tüm Zamanlar</option>
+            </Select>
           </label>
           <label>
             <span className="sr-only">Sıralama türü</span>
@@ -524,8 +539,8 @@ function AllTrendsDialog({
                 </>
               ) : (
                 <>
-                  <option value="relevance">Önem puanı</option>
                   <option value="novelty">Yenilik puanı</option>
+                  <option value="relevance">Önem puanı</option>
                 </>
               )}
               <option value="newest">En yeni</option>
