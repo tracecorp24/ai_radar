@@ -10,7 +10,7 @@ import { ArrowRight, BookOpen, CircleHelp, Flame, Github, Linkedin } from "lucid
 import Link from "next/link";
 import { useState } from "react";
 
-export type RisingCategory = "paper" | "github" | "linkedin";
+export type RisingCategory = "paper" | "linkedin";
 type Contribution = { id: string; title: string; summary: string; source: ContentSource; publishedAt: string; score: number };
 type CategoryView = { count: number; previousCount: number; contributions: Contribution[] };
 
@@ -20,7 +20,6 @@ export interface RisingTopicView extends TrendTopic {
 
 const CATEGORY_META = {
   paper: { label: "Makaleler", icon: BookOpen },
-  github: { label: "Git projeleri", icon: Github },
   linkedin: { label: "LinkedIn", icon: Linkedin }
 } as const;
 

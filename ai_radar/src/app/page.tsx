@@ -132,7 +132,7 @@ export default async function HomePage({
       .map((id) => contentById.get(id))
       .filter((item): item is ContentItem => Boolean(item));
     const categories = Object.fromEntries(
-      (["paper", "github", "linkedin"] as RisingCategory[]).map((category) => {
+      (["paper", "linkedin"] as RisingCategory[]).map((category) => {
         const contributions = recentItems.filter((item) => categoryFor(item) === category);
         const counts = topic.categoryCounts?.[category];
         return [
