@@ -1,0 +1,9 @@
+{
+  "name": "savvy-ai-radar-desktop",
+  "version": "0.30.2",
+  "private": true,
+  "main": "main.cjs",
+  "dependencies": {
+    "savvy-electron-placeholder": "1.0.0"
+  }
+}

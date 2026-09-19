@@ -1,0 +1,5 @@
+import { listPeople, setPersonSources, upsertPerson } from "@/lib/local-db";
+import type { PersonItem } from "@/types";
+import { NextRequest, NextResponse } from "next/server";
+export function GET() { return NextResponse.json({ data: listPeople() }); }
+export async function POST(request: NextRequest) { const body = await request.json().catch(() => null) as Partial<PersonItem> | null; if (!body?.name || !body.role || !body.profileUrl || !body.platform) return NextResponse.json({ error: { code: "INVALID_PERSON", message: "Ad, rol, platform ve profil URL’si gerekli." } }, { status: 400 }); const person: PersonItem = { id: `person-${crypto.randomUUID()}`, name: body.name.trim(), role: body.role.trim(), organization: body.organization?.trim(), platform: body.platform, profileUrl: body.profileUrl, topics: body.topics ?? [], newPostCount: 0, isActive: body.isActive ?? true }; upsertPerson(person); setPersonSources(person.id,body.sourceIds ?? []); return NextResponse.json({ data:{ ...person,sourceIds:body.sourceIds ?? [] } }, { status: 201 }); }

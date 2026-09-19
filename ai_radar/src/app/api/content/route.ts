@@ -1,0 +1,4 @@
+import { getResearchContent } from "@/lib/services/content-service";
+import type { ContentItem } from "@/types";
+import { NextRequest, NextResponse } from "next/server";
+export async function GET(request: NextRequest) { const limit = Math.min(Math.max(Number(request.nextUrl.searchParams.get("limit") ?? 50),1),100); const offset = Math.max(Number(request.nextUrl.searchParams.get("cursor") ?? 0),0); const source = request.nextUrl.searchParams.get("source") as ContentItem["source"] | null; const type = request.nextUrl.searchParams.get("type") as ContentItem["type"] | null; const tag = request.nextUrl.searchParams.get("tag"); const items = await getResearchContent({ source:source ?? undefined,type:type ?? undefined,tag:tag ?? undefined }); const data = items.slice(offset,offset+limit); return NextResponse.json({ data,meta:{ count:items.length,nextCursor:offset+limit<items.length ? String(offset+limit) : null } }); }

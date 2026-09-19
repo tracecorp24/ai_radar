@@ -1,0 +1,107 @@
+{
+  "name": "savvy",
+  "private": true,
+  "version": "0.30.2",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "overrides": {
+    "postcss": "$postcss",
+    "sharp": "^0.35.0"
+  },
+  "scripts": {
+    "predev": "node scripts/load-ai-context.js",
+    "dev": "next dev",
+    "clean:build": "node scripts/clean-production-build.mjs",
+    "prebuild": "npm run clean:build && node scripts/load-ai-context.js",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "migrate:local": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/migrate-local.ts",
+    "verify:local": "npm run migrate:local && node scripts/verify-local.mjs",
+    "test:migration": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/test-migration.ts",
+    "test:e2e": "playwright test",
+    "test:llm": "node scripts/test-clever-connection.mjs",
+    "check": "npm run clean:build && npm run lint && npm run typecheck && npm run test:migration && npm run build && npm run verify:local",
+    "package:portable": "npm run build && node scripts/prepare-portable.mjs && electron-builder --win portable"
+  },
+  "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.2",
+    "@radix-ui/react-dialog": "^1.1.4",
+    "@radix-ui/react-label": "^2.1.1",
+    "@radix-ui/react-popover": "^1.1.4",
+    "@radix-ui/react-select": "^2.1.2",
+    "@radix-ui/react-slider": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.1",
+    "@radix-ui/react-tabs": "^1.1.2",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^11.11.0",
+    "lucide-react": "^0.460.0",
+    "next": "^15.4.6",
+    "next-themes": "^0.3.0",
+    "pdf-parse": "^2.4.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.13.3",
+    "tailwind-merge": "^2.5.4",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.4.6",
+    "postcss": "^8.4.49",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2",
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.savvy.ai-radar",
+    "productName": "Savvy AI Radar",
+    "asar": false,
+    "compression": "store",
+    "directories": {
+      "app": "electron",
+      "output": "release"
+    },
+    "files": [
+      "main.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".next-prod/standalone",
+        "to": "server"
+      },
+      {
+        "from": ".next-prod/static",
+        "to": "server/.next-prod/static"
+      },
+      {
+        "from": "public",
+        "to": "server/public",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    },
+    "portable": {
+      "artifactName": "Savvy-AI-Radar-${version}-portable.exe"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+import { deletePerson, getStoredPerson, setPersonSources, upsertPerson } from "@/lib/local-db";
+import { NextRequest, NextResponse } from "next/server";
+type Context = { params: Promise<{ id: string }> };
+export async function PATCH(request: NextRequest, { params }: Context) { const { id } = await params; const current = getStoredPerson(id); if (!current) return NextResponse.json({ error: { code: "NOT_FOUND", message: "Kişi bulunamadı." } }, { status: 404 }); const body = await request.json().catch(() => null) as Partial<typeof current> | null; const sourceIds=Array.isArray(body?.sourceIds)?body.sourceIds:current.sourceIds ?? []; const updated=upsertPerson({ ...current,...(body ?? {}),sourceIds:undefined }); setPersonSources(id,sourceIds); return NextResponse.json({ data:{ ...updated,sourceIds } }); }
+export async function DELETE(_request: NextRequest, { params }: Context) { const { id } = await params; return deletePerson(id) ? NextResponse.json({ data: { id } }) : NextResponse.json({ error: { code: "NOT_FOUND", message: "Kişi bulunamadı." } }, { status: 404 }); }
