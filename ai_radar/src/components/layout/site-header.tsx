@@ -21,13 +21,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/75 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3 font-semibold tracking-tight">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+        <Link href="/" className="group flex items-center gap-2.5 tracking-wider">
+          <span className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-950/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)] transition-all duration-300 group-hover:scale-105 group-hover:border-cyan-400 group-hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]">
             <Radar className="h-4 w-4" />
           </span>
-          <span className="flex flex-col leading-none">
-            <span className="text-sm uppercase tracking-[0.24em] text-muted-foreground">Corpus</span>
-            <span className="hidden text-xs text-primary/80 lg:inline">AI Research & Technology Intelligence</span>
+          <span className="font-mono text-xl font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.35)]">
+            CORPUS
           </span>
         </Link>
 
