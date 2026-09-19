@@ -38,9 +38,8 @@ function TopicContributionsDialog({ topic, initialCategory, rank }: { topic: Ris
 
   return <Dialog>
     <DialogTrigger asChild>
-      <button type="button" className="group flex w-full items-center gap-2 rounded-xl px-2 py-2.5 text-left transition hover:bg-muted/60">
-        <span className="w-5 text-xs text-muted-foreground">{String(rank).padStart(2, "0")}</span>
-        <span className="min-w-0 flex-1 truncate text-sm font-medium group-hover:text-primary">{topic.name}</span>
+      <button type="button" className="group flex w-full items-center gap-2 rounded-xl px-2 py-2.5 text-left transition hover:bg-muted/60"        <span className="w-5 text-xs text-muted-foreground">{String(rank).padStart(2, "0")}</span>
+        <span className="min-w-0 flex-1 text-sm font-medium leading-tight group-hover:text-primary break-words [word-break:break-word] [overflow-wrap:anywhere]">{topic.name}</span>
         <span className="shrink-0 text-[11px] font-medium text-emerald-400">{changeLabel(topic.categories[initialCategory].count, topic.categories[initialCategory].previousCount)}</span>
       </button>
     </DialogTrigger>
@@ -50,7 +49,7 @@ function TopicContributionsDialog({ topic, initialCategory, rank }: { topic: Ris
         <DialogTitle>Artışa katkı sağlayan içerikler</DialogTitle>
         <DialogDescription>Bu konu için kaynak türleri arasında geçiş yapabilirsiniz.</DialogDescription>
       </DialogHeader>
-      <div className="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-muted/50 p-1" role="tablist" aria-label={`${topic.name} içerik kategorileri`}>
+      <div className="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-muted/50 p-1" role="tablist" aria-label={`${topic.name} içerik kategorileri`}>
         {(Object.entries(CATEGORY_META) as Array<[RisingCategory, (typeof CATEGORY_META)[RisingCategory]]>).map(([key, meta]) => {
           const Icon = meta.icon;
           const categoryView = topic.categories[key];
@@ -58,7 +57,7 @@ function TopicContributionsDialog({ topic, initialCategory, rank }: { topic: Ris
         })}
       </div>
       <div className="mt-4 divide-y divide-border/70">
-        {view.contributions.length ? view.contributions.map((item) => <Link key={item.id} href={`/content/${item.id}`} className="group grid gap-2 py-4 first:pt-0"><span className="flex items-center gap-2"><SourceBadge source={item.source} /><span className="text-xs text-muted-foreground">{formatDateTime(item.publishedAt)} · {item.score} puan</span></span><span className="flex items-start gap-2"><span className="min-w-0 flex-1"><span className="line-clamp-2 text-sm font-medium group-hover:text-primary">{item.title}</span><span className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">{item.summary}</span></span><ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" /></span></Link>) : <p className="rounded-xl border border-dashed px-3 py-5 text-center text-xs leading-5 text-muted-foreground">Bu konu için {CATEGORY_META[selectedCategory].label.toLocaleLowerCase("tr")} tarafında henüz eşleşen içerik yok.</p>}
+        {view.contributions.length ? view.contributions.map((item) => <Link key={item.id} href={`/content/${item.id}`} className="group grid gap-2 py-4 first:pt-0"><span className="flex items-center gap-2"><SourceBadge source={item.source} /><span className="text-xs text-muted-foreground">{formatDateTime(item.publishedAt)} · {item.score} puan</span></span><span className="flex items-start gap-2"><span className="min-w-0 flex-1"><span className="line-clamp-2 text-sm font-medium group-hover:text-primary break-words [word-break:break-word] [overflow-wrap:anywhere]">{item.title}</span><span className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">{item.summary}</span></span><ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" /></span></Link>) : <p className="rounded-xl border border-dashed px-3 py-5 text-center text-xs leading-5 text-muted-foreground">Bu konu için {CATEGORY_META[selectedCategory].label.toLocaleLowerCase("tr")} tarafında henüz eşleşen içerik yok.</p>}�en içerik yok.</p>}
       </div>
     </DialogContent>
   </Dialog>;

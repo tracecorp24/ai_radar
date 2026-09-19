@@ -240,7 +240,7 @@ export default async function HomePage({
               <Cpu className="h-4 w-4" />
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold" title={models[0]?.name ?? "Huihui-Qwen3.8-27B-abliterated-GGUF"}>
+              <p className="text-xs sm:text-sm font-semibold leading-snug break-words [word-break:break-word] [overflow-wrap:anywhere]" title={models[0]?.name ?? "Huihui-Qwen3.8-27B-abliterated-GGUF"}>
                 {models[0]?.name ?? "Huihui-Qwen3.8-27B-abliterated-GGUF"}
               </p>
               <p className="text-xs text-muted-foreground">en aktif model</p>
