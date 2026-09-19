@@ -199,11 +199,8 @@ export default async function HomePage({
       <section className="flex flex-col gap-4 border-b border-border/70 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Track the Bleeding Edge of AI
+            Catch the Latest AI Trends
           </h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-            GitHub projeleri, arXiv makaleleri ve konu hareketleri tek, sade görünümde.
-          </p>
           <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
             <Clock3 className="h-3.5 w-3.5" />
             Son analiz: {lastUpdatedAt ? formatDateTime(lastUpdatedAt) : "Henüz analiz edilmedi"} ·
