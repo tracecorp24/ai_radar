@@ -28,3 +28,11 @@ Uygulama çalışırken otomatik olarak aşağıdaki adreste sunulur:
 - **Swagger UI:** `http://localhost:8000/docs`
 - **ReDoc:** `http://localhost:8000/redoc`
 - **OpenAPI Spec:** `http://localhost:8000/api/v1/openapi.json`
+
+### 3. Kapsamlı Sistem Teşhis ve Metrik Protokolü (Diagnostics)
+
+- **HTTP Metodu:** `GET`
+- **URL (Frontend):** `/api/diagnostics`
+- **URL (Backend):** `/api/v1/diagnostics`
+- **Detaylı Dokümantasyon:** [system_communication_and_diagnostics.md](file:///c:/Users/108097/Desktop/ai_radar_dashboard/docs/system_communication_and_diagnostics.md)
+- **Açıklama:** Veritabanı canlılık durumu, PostgreSQL disk alanı (MB), LLM API key durumları, sunucu CPU/RAM/Disk kullanımı, son 24 saatlik içerik sayıları ve son uygulama hatalarını tek bir JSON nesnesinde raporlar.
