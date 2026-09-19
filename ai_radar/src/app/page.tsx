@@ -117,13 +117,11 @@ export default async function HomePage({
         }));
   const contentById = new Map(allContent.map((item) => [item.id, item]));
   const categoryFor = (item: ContentItem): RisingCategory | null =>
-    item.source === "github"
-      ? "github"
-      : item.source === "linkedin" || item.type === "post"
-          ? "linkedin"
-          : item.source === "arxiv" || item.type === "paper"
-            ? "paper"
-            : null;
+    item.source === "linkedin" || item.type === "post"
+      ? "linkedin"
+      : item.source === "arxiv" || item.type === "paper"
+        ? "paper"
+        : null;
   const topicViews: RisingTopicView[] = topics.map((topic) => {
     const recentItems = (topic.itemIds ?? [])
       .map((id) => contentById.get(id))
