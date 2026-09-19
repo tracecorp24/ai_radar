@@ -92,9 +92,9 @@ export default async function HomePage({
   const isHomepageGitHubCandidate = (item: ContentItem) => {
     if (item.source !== "github") return true;
     const createdAt = item.github?.createdAt ? new Date(item.github.createdAt).getTime() : 0;
-    const publishedAt = new Date(item.publishedAt).getTime();
-    const isRecent = publishedAt >= homepage6mCutoff || (createdAt > 0 && createdAt >= homepage6mCutoff);
-    return isRecent && isGitHubTrendCandidate(item);
+    const effectiveDate = createdAt > 0 ? createdAt : new Date(item.publishedAt).getTime();
+    const isWithin6m = effectiveDate >= homepage6mCutoff;
+    return isWithin6m && isGitHubTrendCandidate(item);
   };
 
   const freshContent = allContent.filter(
@@ -108,9 +108,15 @@ export default async function HomePage({
     .filter(isHomepageGitHubCandidate)
     .sort((a, b) => compareForPeriod(a, b, freshnessDays));
   const dailySignal = editorialRanked[0] ?? featured;
-  const githubTrends = ranked.filter((item) => item.source === "github");
-  const arxivTrends = ranked.filter((item) => item.source === "arxiv");
-  const huggingFaceTrends = ranked.filter((item) => item.source === "huggingface");
+  const githubTrends = freshContent
+    .filter((item) => item.source === "github" && isGitHubTrendCandidate(item))
+    .sort((a, b) => compareForPeriod(a, b, freshnessDays));
+  const arxivTrends = freshContent
+    .filter((item) => item.source === "arxiv")
+    .sort((a, b) => compareForPeriod(a, b, freshnessDays));
+  const huggingFaceTrends = freshContent
+    .filter((item) => item.source === "huggingface")
+    .sort((a, b) => compareForPeriod(a, b, freshnessDays));
   const mainTrendCandidates = editorialRanked.filter((item) => item.id !== dailySignal?.id);
   const mainTrends = [
     ...mainTrendCandidates.filter((item) => item.source !== "github").slice(0, 4),
