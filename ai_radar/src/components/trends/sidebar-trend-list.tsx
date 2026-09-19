@@ -21,6 +21,7 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
+  Download,
   ExternalLink,
   Github,
   Library,
@@ -31,6 +32,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { PaperProcessingProgress } from "@/components/research/paper-processing-progress";
 
 type TrendSource = "github" | "arxiv" | "huggingface";
 type SortKey = "trend" | "relevance" | "novelty" | "freshness" | "momentum" | "originality" | "depth" | "newest" | "starsPerDay" | "stars" | "forks";
@@ -730,21 +732,21 @@ export function SidebarTrendTabs({
   arxivUpdatedAt?: string;
   huggingFaceUpdatedAt?: string;
 }) {
-  const [activeSource, setActiveSource] = useState<"arxiv" | "huggingface">("arxiv");
+  const [activeSource, setActiveSource] = useState<"arxiv" | "huggingface" | "queue">("arxiv");
   const activeItems = activeSource === "arxiv" ? arxivItems : huggingFaceItems;
   const activeUpdatedAt = activeSource === "arxiv" ? arxivUpdatedAt : huggingFaceUpdatedAt;
   const activeEmptyText =
     activeSource === "arxiv" ? "Henüz arXiv trendi yok." : "Henüz Hugging Face trendi yok.";
-  const activeTitle = sourceTitle(activeSource);
+  const activeTitle = activeSource === "queue" ? "Makale İndirme ve İşleme Kuyruğu" : sourceTitle(activeSource);
 
   return (
     <Card>
       <div
         role="tablist"
         aria-label="Trend kaynağı"
-        className="grid grid-cols-2 gap-1 border-b border-border/70 p-2"
+        className="grid grid-cols-3 gap-1 border-b border-border/70 p-2"
       >
-        {(["arxiv", "huggingface"] as const).map((source) => {
+        {(["arxiv", "huggingface", "queue"] as const).map((source) => {
           const isActive = activeSource === source;
           return (
             <button
@@ -754,25 +756,31 @@ export function SidebarTrendTabs({
               aria-selected={isActive}
               aria-controls={`${source}-trend-panel`}
               onClick={() => setActiveSource(source)}
-              className={`flex items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-xs font-medium transition ${
+              className={`flex items-center justify-center gap-1 rounded-lg px-2 py-2 text-xs font-medium transition ${
                 isActive
                   ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              {sourceIcon(source)}
-              {source === "arxiv" ? "arXiv" : "Hugging Face"}
+              {source === "queue" ? <Download className="h-3.5 w-3.5 text-cyan-400" /> : sourceIcon(source)}
+              {source === "arxiv" ? "arXiv" : source === "huggingface" ? "Hugging Face" : "Kuyruk"}
             </button>
           );
         })}
       </div>
       <div id={`${activeSource}-trend-panel`} role="tabpanel" aria-label={activeTitle}>
-        <TrendCardContent
-          source={activeSource}
-          items={activeItems}
-          emptyText={activeEmptyText}
-          updatedAt={activeUpdatedAt}
-        />
+        {activeSource === "queue" ? (
+          <div className="p-2">
+            <PaperProcessingProgress />
+          </div>
+        ) : (
+          <TrendCardContent
+            source={activeSource}
+            items={activeItems}
+            emptyText={activeEmptyText}
+            updatedAt={activeUpdatedAt}
+          />
+        )}
       </div>
     </Card>
   );

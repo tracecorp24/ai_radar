@@ -33,6 +33,7 @@ import { getTrendingModels } from "@/lib/services/model-service";
 import { getTrendAnalysisStatus, getTrendTopics } from "@/lib/services/trend-service";
 import type { ContentItem, TrendTopic } from "@/types";
 import {
+  AlertCircle,
   ArrowRight,
   Clock3,
   ExternalLink,
@@ -201,11 +202,6 @@ export default async function HomePage({
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Catch the Latest AI Trends
           </h1>
-          <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Clock3 className="h-3.5 w-3.5" />
-            Son analiz: {lastUpdatedAt ? formatDateTime(lastUpdatedAt) : "Henüz analiz edilmedi"} ·
-            her 10 dakikada otomatik
-          </p>
         </div>
         <div className="flex flex-wrap items-start gap-2">
           <HomeFreshnessFilter value={freshnessDays} resultCount={freshContent.length} />
@@ -243,21 +239,30 @@ export default async function HomePage({
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="flex items-center gap-3 p-4">
-            <span className="rounded-xl bg-emerald-500/10 p-2 text-emerald-400">
-              <Radar className="h-4 w-4" />
-            </span>
-            <div>
-              <p className="text-xl font-semibold">
-                {activeSources}/{sources.length}
-              </p>
-              <p className="text-xs text-muted-foreground">aktif kaynak</p>
+          <CardContent className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <span className="rounded-xl bg-cyan-500/10 p-2 text-cyan-400">
+                <Clock3 className="h-4 w-4" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold">
+                  {lastUpdatedAt ? formatDateTime(lastUpdatedAt) : "Henüz edilmedi"}
+                </p>
+                <p className="text-xs text-muted-foreground">son analiz saati</p>
+              </div>
             </div>
+            {activeSources < sources.length ? (
+              <span
+                title={`${sources.length - activeSources} kaynak devre dışı veya uyarı durumunda`}
+                className="flex items-center gap-1 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-400"
+              >
+                <AlertCircle className="h-3.5 w-3.5" />
+                {sources.length - activeSources} pasif
+              </span>
+            ) : null}
           </CardContent>
         </Card>
       </section>
-
-      <PaperProcessingProgress />
 
       <section className="grid items-start gap-5 xl:grid-cols-[240px_minmax(0,1fr)_300px]">
         <aside className="space-y-4 xl:sticky xl:top-20">
