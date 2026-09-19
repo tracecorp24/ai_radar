@@ -198,10 +198,6 @@ export default async function HomePage({
     <div className="page-grid space-y-6">
       <section className="flex flex-col gap-4 border-b border-border/70 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
-            <Radar className="h-4 w-4" />
-            Kişisel AI trend radarı
-          </div>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Bugün ne yükseliyor?
           </h1>

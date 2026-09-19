@@ -7,6 +7,7 @@ from app.api.v1.auth import router as auth_router
 from app.api.v1.ai import router as ai_router
 from app.api.v1.metrics import router as metrics_router
 from app.api.v1.testers import router as testers_router
+from app.api.v1.diagnostics import router as diagnostics_router
 from app.core.middleware import RequestIDMiddleware
 
 app = FastAPI(
@@ -39,6 +40,7 @@ app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(ai_router, prefix=settings.API_V1_STR)
 app.include_router(metrics_router, prefix=settings.API_V1_STR)
 app.include_router(testers_router, prefix=settings.API_V1_STR)
+app.include_router(diagnostics_router, prefix=settings.API_V1_STR)
 
 @app.get("/", summary="Kök Endpoint", tags=["System"])
 def root():

@@ -125,7 +125,19 @@ export function upsertContent(item: ContentItem) {
 }
 export function listContent(options: { source?: string; type?: string; bookmarked?: boolean; limit?: number } = {}) {
   const rows = getLocalDatabase().prepare("SELECT payload FROM content_items ORDER BY trend_score DESC,published_at DESC LIMIT ?").all(Math.min(options.limit ?? 200, 5000));
-  return rows.map((row) => mergeState(JSON.parse(String(row.payload)) as ContentItem)).filter((item) => (!options.source || options.source === "all" || item.source === options.source) && (!options.type || options.type === "all" || item.type === options.type) && (options.bookmarked === undefined || item.isBookmarked === options.bookmarked));
+  return rows.map((row) => {
+    const item = mergeState(JSON.parse(String(row.payload)) as ContentItem);
+    if (item.paperDocument) {
+      delete item.paperDocument;
+    }
+    if (item.repositoryDocument) {
+      delete item.repositoryDocument;
+    }
+    if (item.originalContent && item.originalContent.length > 1000) {
+      delete item.originalContent;
+    }
+    return item;
+  }).filter((item) => (!options.source || options.source === "all" || item.source === options.source) && (!options.type || options.type === "all" || item.type === options.type) && (options.bookmarked === undefined || item.isBookmarked === options.bookmarked));
 }
 export function getContent(id: string) { const row = getLocalDatabase().prepare("SELECT payload FROM content_items WHERE id=?").get(id) as { payload: string } | undefined; return row ? mergeState(JSON.parse(row.payload) as ContentItem) : undefined; }
 export type PaperDocumentJobStatus = "queued" | "processing" | "ready" | "failed";
