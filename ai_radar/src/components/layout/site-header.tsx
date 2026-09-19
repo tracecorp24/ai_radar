@@ -26,7 +26,7 @@ export function SiteHeader() {
             <Radar className="h-4 w-4" />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-sm uppercase tracking-[0.24em] text-muted-foreground">Savvy</span>
+            <span className="text-sm uppercase tracking-[0.24em] text-muted-foreground">Corpus</span>
             <span className="hidden text-xs text-primary/80 lg:inline">AI Research & Technology Intelligence</span>
           </span>
         </Link>

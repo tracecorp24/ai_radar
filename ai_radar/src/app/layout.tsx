@@ -8,11 +8,11 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: {
-    default: "Savvy",
-    template: "%s · Savvy"
+    default: "Corpus",
+    template: "%s · Corpus"
   },
   description: "AI Research & Technology Intelligence dashboard.",
-  metadataBase: new URL("https://savvy.local")
+  metadataBase: new URL("https://corpus.local")
 };
 
 export default async function RootLayout({

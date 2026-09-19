@@ -1,7 +1,7 @@
 import type { ContentSource } from "@/types";
 import { BarChart3, BookOpenText, Layers3, LayoutDashboard, Users, Radar, Settings2 } from "lucide-react";
 
-export const APP_NAME = "Savvy";
+export const APP_NAME = "Corpus";
 export const APP_TAGLINE = "AI Research & Technology Intelligence";
 export const APP_TAGLINE_TR = "Yapay Zekâ Araştırma ve Teknoloji İstihbarat Platformu";
 
