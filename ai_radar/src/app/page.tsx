@@ -33,6 +33,7 @@ import {
   AlertCircle,
   ArrowRight,
   Clock3,
+  Cpu,
   ExternalLink,
   Flame,
   Radar,
@@ -210,7 +211,7 @@ export default async function HomePage({
         </div>
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-3">
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardContent className="flex items-center gap-3 p-4">
             <span className="rounded-xl bg-primary/10 p-2 text-primary">
@@ -227,9 +228,22 @@ export default async function HomePage({
             <span className="rounded-xl bg-orange-500/10 p-2 text-orange-400">
               <Flame className="h-4 w-4" />
             </span>
-            <div>
-              <p className="text-xl font-semibold">{topics[0]?.name ?? "—"}</p>
-              <p className="text-xs text-muted-foreground">en güçlü konu</p>
+            <div className="min-w-0">
+              <p className="truncate text-lg font-semibold">{topics[0]?.name ?? "RAG"}</p>
+              <p className="text-xs text-muted-foreground">haftanın konusu</p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="flex items-center gap-3 p-4">
+            <span className="rounded-xl bg-violet-500/10 p-2 text-violet-400">
+              <Cpu className="h-4 w-4" />
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold" title={models[0]?.name ?? "Huihui-Qwen3.8-27B-abliterated-GGUF"}>
+                {models[0]?.name ?? "Huihui-Qwen3.8-27B-abliterated-GGUF"}
+              </p>
+              <p className="text-xs text-muted-foreground">en aktif model</p>
             </div>
           </CardContent>
         </Card>
