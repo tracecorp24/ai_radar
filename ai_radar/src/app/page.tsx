@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { HomeTrendActions } from "@/components/trends/home-trend-actions";
 import { HomeFreshnessFilter } from "@/components/trends/home-freshness-filter";
-import { PaperProcessingProgress } from "@/components/research/paper-processing-progress";
 import { RadarFlowCards } from "@/components/trends/radar-flow-cards";
 import {
   RisingTopicsPanel,
@@ -100,9 +99,6 @@ export default async function HomePage({
   const freshContent = allContent.filter(
     (item) => new Date(item.publishedAt).getTime() >= freshnessCutoff
   );
-  const ranked = freshContent
-    .filter(isHomepageGitHubCandidate)
-    .sort((a, b) => compareForPeriod(a, b, freshnessDays));
   const editorialRanked = freshContent
     .filter((item) => item.source === "arxiv" || item.source === "github")
     .filter(isHomepageGitHubCandidate)
@@ -211,11 +207,11 @@ export default async function HomePage({
     <div className="page-grid space-y-6">
       <section className="flex flex-col gap-4 border-b border-border/70 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-4xl">
             Catch the Latest AI Trends
           </h1>
         </div>
-        <div className="flex flex-wrap items-start gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <HomeFreshnessFilter value={freshnessDays} resultCount={freshContent.length} />
           <HomeTrendActions />
           <Button asChild>
@@ -290,7 +286,7 @@ export default async function HomePage({
       </section>
 
       <section className="grid items-start gap-5 xl:grid-cols-[240px_minmax(0,1fr)_300px]">
-        <aside className="space-y-4 xl:sticky xl:top-20">
+        <aside className="order-2 space-y-4 xl:order-1 xl:sticky xl:top-20">
           <RisingTopicsPanel
             topics={topicViews}
             analysis={{
@@ -303,7 +299,7 @@ export default async function HomePage({
           <HuggingFaceModelsPanel models={huggingFaceModels} />
         </aside>
 
-        <div className="min-w-0 space-y-5">
+        <div className="order-1 min-w-0 space-y-5 xl:order-2">
           <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/10 via-card to-card">
             <CardContent className="relative space-y-6 p-6 sm:p-8">
               <div className="flex flex-wrap items-center gap-2">

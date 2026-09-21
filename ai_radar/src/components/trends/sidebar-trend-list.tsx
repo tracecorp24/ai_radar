@@ -460,7 +460,12 @@ function AllTrendsDialog({
     const normalizedQuery = query.trim().toLocaleLowerCase("tr");
     const cutoff = timeRange === "180d" ? Date.now() - 180 * 86_400_000 : timeRange === "365d" ? Date.now() - 365 * 86_400_000 : 0;
     return items
-      .filter((item) => !cutoff || new Date(item.publishedAt).getTime() >= cutoff)
+      .filter((item) => {
+        if (!cutoff) return true;
+        const createdAt = item.github?.createdAt ? new Date(item.github.createdAt).getTime() : 0;
+        const effectiveDate = createdAt > 0 ? createdAt : new Date(item.publishedAt).getTime();
+        return effectiveDate >= cutoff;
+      })
       .filter(
         (item) =>
           !normalizedQuery ||
@@ -499,7 +504,7 @@ function AllTrendsDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-3 border-b border-border/70 bg-muted/20 p-4 md:grid-cols-5 sm:px-6">
+        <div className="grid gap-2 border-b border-border/70 bg-muted/20 p-3 text-xs sm:gap-3 sm:p-4 sm:text-sm grid-cols-1 sm:grid-cols-2 md:grid-cols-5 sm:px-6">
           <label className="relative">
             <span className="sr-only">Trendlerde ara</span>
             <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -767,7 +772,7 @@ export function SidebarTrendTabs({
       <div
         role="tablist"
         aria-label="Trend kaynağı"
-        className="grid grid-cols-4 gap-1 border-b border-border/70 p-1.5"
+        className="grid grid-cols-4 gap-1 border-b border-border/70 p-1 sm:p-1.5"
       >
         {(["github", "arxiv", "huggingface", "queue"] as const).map((source) => {
           const isActive = activeSource === source;
@@ -779,14 +784,14 @@ export function SidebarTrendTabs({
               aria-selected={isActive}
               aria-controls={`${source}-trend-panel`}
               onClick={() => setActiveSource(source)}
-              className={`flex items-center justify-center gap-1 rounded-lg px-1.5 py-1.5 text-[11px] font-medium transition ${
+              className={`flex min-w-0 items-center justify-center gap-1 rounded-lg px-1 py-1.5 text-[10px] sm:text-[11px] font-medium transition ${
                 isActive
                   ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              {source === "queue" ? <Download className="h-3.5 w-3.5 text-cyan-400" /> : sourceIcon(source)}
-              {source === "github" ? "GitHub" : source === "arxiv" ? "arXiv" : source === "huggingface" ? "HF" : "Kuyruk"}
+              {source === "queue" ? <Download className="h-3.5 w-3.5 shrink-0 text-cyan-400" /> : sourceIcon(source)}
+              <span className="truncate">{source === "github" ? "GitHub" : source === "arxiv" ? "arXiv" : source === "huggingface" ? "HF" : "Kuyruk"}</span>
             </button>
           );
         })}

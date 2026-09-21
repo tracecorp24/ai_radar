@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { formatDateTime } from "@/lib/formatters";
 import type { ContentSource, TrendTopic } from "@/types";
-import { ArrowRight, BookOpen, CircleHelp, Flame, Github, Linkedin } from "lucide-react";
+import { ArrowRight, BookOpen, CircleHelp, Flame, Linkedin } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -50,7 +50,7 @@ function TopicContributionsDialog({ topic, initialCategory, rank }: { topic: Ris
         <DialogTitle>Artışa katkı sağlayan içerikler</DialogTitle>
         <DialogDescription>Bu konu için kaynak türleri arasında geçiş yapabilirsiniz.</DialogDescription>
       </DialogHeader>
-      <div className="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-muted/50 p-1" role="tablist" aria-label={`${topic.name} içerik kategorileri`}>
+      <div className="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-muted/50 p-1" role="tablist" aria-label={`${topic.name} içerik kategorileri`}>
         {(Object.entries(CATEGORY_META) as Array<[RisingCategory, (typeof CATEGORY_META)[RisingCategory]]>).map(([key, meta]) => {
           const Icon = meta.icon;
           const categoryView = topic.categories[key];
@@ -78,8 +78,8 @@ export function RisingTopicsPanel({ topics, analysis }: { topics: RisingTopicVie
       </CardTitle>
     </CardHeader>
     <CardContent>
-      <div className="mb-3 grid grid-cols-3 gap-1 rounded-xl bg-muted/50 p-1" role="tablist" aria-label="Yükselen içerik kategorileri">
-        {(Object.entries(CATEGORY_META) as Array<[RisingCategory, (typeof CATEGORY_META)[RisingCategory]]>).map(([key, meta]) => { const Icon = meta.icon; return <button key={key} type="button" role="tab" aria-selected={category === key} onClick={() => setCategory(key)} className={`flex min-w-0 flex-col items-center gap-1 rounded-lg px-1 py-2 text-[10px] font-medium transition ${category === key ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}><Icon className="h-3.5 w-3.5" /><span className="truncate">{meta.label}</span></button>; })}
+      <div className="mb-3 grid grid-cols-2 gap-1 rounded-xl bg-muted/50 p-1" role="tablist" aria-label="Yükselen içerik kategorileri">
+        {(Object.entries(CATEGORY_META) as Array<[RisingCategory, (typeof CATEGORY_META)[RisingCategory]]>).map(([key, meta]) => { const Icon = meta.icon; return <button key={key} type="button" role="tab" aria-selected={category === key} onClick={() => setCategory(key)} className={`flex min-w-0 flex-col items-center gap-1 rounded-lg px-1 py-2 text-[10px] font-medium transition ${category === key ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}><Icon className="h-3.5 w-3.5 shrink-0" /><span className="truncate">{meta.label}</span></button>; })}
       </div>
       <div className="space-y-1">{visibleTopics.length ? visibleTopics.slice(0, 12).map((topic, index) => <TopicContributionsDialog key={`${category}-${topic.name}`} topic={topic} initialCategory={category} rank={index + 1} />) : <p className="rounded-xl border border-dashed px-3 py-5 text-center text-xs leading-5 text-muted-foreground">Son iki 24 saatlik dönemde bu kategoride eşleşen içerik bulunamadı.</p>}</div>
     </CardContent>

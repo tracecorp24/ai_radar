@@ -70,7 +70,7 @@ export function SourceStatusCard({ source }: { source: SourceStatus }) {
 
   return <>
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
-      <CardHeader className="space-y-2"><div className="flex items-start justify-between gap-3"><div><CardTitle className="editorial-title">{current.name}</CardTitle><CardDescription>{current.type}{current.keywords?.length ? ` · ${current.keywords.join(", ")}` : ""}</CardDescription></div><Badge tone={statusTone[current.status]}>{label}</Badge></div></CardHeader>
+      <CardHeader className="space-y-2"><div className="flex items-start justify-between gap-3"><div className="min-w-0 flex-1"><CardTitle className="editorial-title truncate">{current.name}</CardTitle><CardDescription className="truncate">{current.type}{current.keywords?.length ? ` · ${current.keywords.join(", ")}` : ""}</CardDescription></div><Badge tone={statusTone[current.status]} className="shrink-0">{label}</Badge></div></CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-xl border bg-muted/30 p-3"><p className="text-xs text-muted-foreground">Son kontrol</p><p className="font-medium">{formatDateTime(current.lastCheckedAt)}</p></div>

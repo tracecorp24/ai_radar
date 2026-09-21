@@ -19,8 +19,8 @@ function Questions({ questions, compact = false }: { questions: PaperCitationAna
 function CitationBranch({ node, level = 1 }: { node: CitationTreeNode; level?: number }) {
   const [open, setOpen] = useState(level === 1);
   const [childrenOpen, setChildrenOpen] = useState(false);
-  return <div className="relative pl-6 before:absolute before:left-2 before:top-0 before:h-full before:w-px before:bg-primary/25">
-    <div className="absolute left-2 top-6 h-px w-4 bg-primary/25" />
+  return <div className="relative pl-3 sm:pl-6 before:absolute before:left-1.5 sm:before:left-2 before:top-0 before:h-full before:w-px before:bg-primary/25">
+    <div className="absolute left-1.5 sm:left-2 top-6 h-px w-3 sm:w-4 bg-primary/25" />
     <Card className="border-primary/15 bg-muted/15">
       <CardHeader className="space-y-2 p-4">
         <div className="flex items-start justify-between gap-3">

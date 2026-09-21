@@ -24,13 +24,13 @@ export function StatCard({
 
   return (
     <Card className="overflow-hidden">
-      <CardContent className={cn("relative flex items-end justify-between gap-4 bg-gradient-to-br p-5", tones[tone])}>
-        <div className="space-y-1">
-          <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-2xl font-semibold tracking-tight">{value}</p>
+      <CardContent className={cn("relative flex items-end justify-between gap-3 bg-gradient-to-br p-4 sm:p-5", tones[tone])}>
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="truncate text-xs sm:text-sm text-muted-foreground">{label}</p>
+          <p className="line-clamp-2 text-lg font-semibold leading-tight tracking-tight sm:text-2xl break-words [word-break:break-word]">{value}</p>
           {delta ? <p className="text-xs text-muted-foreground">{delta}</p> : null}
         </div>
-        {icon ? <div className="rounded-2xl border border-border bg-background/80 p-3 text-primary">{icon}</div> : null}
+        {icon ? <div className="shrink-0 rounded-2xl border border-border bg-background/80 p-2.5 sm:p-3 text-primary">{icon}</div> : null}
       </CardContent>
     </Card>
   );

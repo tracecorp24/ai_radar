@@ -51,12 +51,12 @@ export function TrendSearchPanel() {
     <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/5 via-background to-cyan-500/5">
       <CardHeader><CardTitle className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" />Canlı GitHub + arXiv trend araması</CardTitle></CardHeader>
       <CardContent>
-        <form className="grid gap-4 lg:grid-cols-[minmax(240px,1fr)_180px_150px_120px_auto] lg:items-end" onSubmit={submit}>
-          <div className="space-y-2"><Label htmlFor="trend-query">Topic’ler</Label><Input id="trend-query" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="RAG, AI agents, multimodal" required minLength={2} /><p className="text-xs text-muted-foreground">En fazla 5 topic; virgülle ayırın.</p></div>
+        <form className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[minmax(200px,1fr)_160px_140px_100px_auto] lg:items-end" onSubmit={submit}>
+          <div className="space-y-2 sm:col-span-2 lg:col-span-1"><Label htmlFor="trend-query">Topic’ler</Label><Input id="trend-query" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="RAG, AI agents, multimodal" required minLength={2} /><p className="text-xs text-muted-foreground">En fazla 5 topic; virgülle ayırın.</p></div>
           <div className="space-y-2"><Label htmlFor="trend-source">Kaynak</Label><Select id="trend-source" value={source} onChange={(event) => setSource(event.target.value)}><option value="all">GitHub + arXiv</option><option value="arxiv">Yalnızca arXiv</option><option value="github">Yalnızca GitHub</option></Select></div>
           <div className="space-y-2"><Label htmlFor="trend-period">Trend dönemi</Label><Select id="trend-period" value={periodDays} onChange={(event) => setPeriodDays(Number(event.target.value))}>{FRESHNESS_OPTIONS.map((option) => <option key={option.days} value={option.days}>{option.label}</option>)}</Select></div>
           <div className="space-y-2"><Label htmlFor="trend-limit">Sonuç</Label><Select id="trend-limit" value={limit} onChange={(event) => setLimit(Number(event.target.value))}>{[10, 20, 30, 50].map((count) => <option key={count} value={count}>{count}</option>)}</Select></div>
-          <Button type="submit" disabled={loading || query.trim().length < 2}><Search className="h-4 w-4" />{loading ? "Taranıyor..." : "Trendleri bul"}</Button>
+          <Button type="submit" disabled={loading || query.trim().length < 2} className="sm:col-span-2 lg:col-span-1"><Search className="h-4 w-4" />{loading ? "Taranıyor..." : "Trendleri bul"}</Button>
         </form>
         <p className="mt-3 text-xs text-muted-foreground">GitHub sonuçları yıldız hızı, fork, son push ve sorgu uyumuyla; arXiv sonuçları dönemsel tazelik, konu yoğunluğu ve sorgu uyumuyla sıralanır.</p>
       </CardContent>

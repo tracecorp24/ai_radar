@@ -1,7 +1,7 @@
 {
   "name": "savvy",
   "private": true,
-  "version": "0.30.2",
+  "version": "0.30.4",
   "engines": {
     "node": ">=22.5.0"
   },

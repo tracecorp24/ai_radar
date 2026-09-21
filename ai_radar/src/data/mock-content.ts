@@ -431,31 +431,65 @@ const seeds: ContentSeed[] = [
     isRead: true,
     publishedDaysAgo: 12,
     firstSeenHoursAgo: 220
+  },
+  {
+    source: "github",
+    type: "release",
+    externalId: "github-sglang",
+    title: "sglang: Fast and Expressive LLM Serving Engine",
+    summary:
+      "SGLang is a structured generation language and high-performance inference engine for LLMs with fast vLLM integration.",
+    url: "https://github.com/sgl-project/sglang",
+    authors: ["sgl-project"],
+    organization: "GitHub",
+    tags: ["Model Serving", "Inference Optimization", "Local LLM"],
+    relevanceScore: 94,
+    noveltyScore: 80,
+    difficulty: "advanced",
+    isBookmarked: false,
+    isRead: false,
+    publishedDaysAgo: 1,
+    firstSeenHoursAgo: 10
   }
 ];
 
-export const mockContent: ContentItem[] = seeds.map((seed, index) => ({
-  id: `content-${String(index + 1).padStart(2, "0")}`,
-  source: seed.source,
-  type: seed.type,
-  externalId: seed.externalId,
-  title: seed.title,
-  summary: seed.summary,
-  originalContent: seed.originalContent,
-  url: seed.url,
-  imageUrl: seed.imageUrl,
-  authors: seed.authors,
-  organization: seed.organization,
-  publishedAt: isoDaysAgo(seed.publishedDaysAgo),
-  firstSeenAt: isoHoursAgo(seed.firstSeenHoursAgo),
-  updatedAt: seed.updatedDaysAgo !== undefined ? isoDaysAgo(seed.updatedDaysAgo) : undefined,
-  tags: seed.tags,
-  relevanceScore: seed.relevanceScore,
-  noveltyScore: seed.noveltyScore,
-  difficulty: seed.difficulty,
-  isBookmarked: seed.isBookmarked,
-  isRead: seed.isRead,
-  isFeatured: seed.isFeatured
-}));
+export const mockContent: ContentItem[] = seeds.map((seed, index) => {
+  const publishedAt = isoDaysAgo(seed.publishedDaysAgo);
+  const isGithub = seed.source === "github";
+  return {
+    id: `content-${String(index + 1).padStart(2, "0")}`,
+    source: seed.source,
+    type: seed.type,
+    externalId: seed.externalId,
+    title: seed.title,
+    summary: seed.summary,
+    originalContent: seed.originalContent,
+    url: seed.url,
+    imageUrl: seed.imageUrl,
+    authors: seed.authors,
+    organization: seed.organization,
+    publishedAt,
+    firstSeenAt: isoHoursAgo(seed.firstSeenHoursAgo),
+    updatedAt: seed.updatedDaysAgo !== undefined ? isoDaysAgo(seed.updatedDaysAgo) : undefined,
+    tags: seed.tags,
+    relevanceScore: seed.relevanceScore,
+    noveltyScore: seed.noveltyScore,
+    difficulty: seed.difficulty,
+    isBookmarked: seed.isBookmarked,
+    isRead: seed.isRead,
+    isFeatured: seed.isFeatured,
+    github: isGithub
+      ? {
+          stars: seed.externalId.includes("sglang") ? 8900 : 4200 + index * 300,
+          forks: seed.externalId.includes("sglang") ? 950 : 350 + index * 40,
+          openIssues: 32,
+          language: "Python",
+          createdAt: seed.externalId.includes("sglang") ? isoDaysAgo(540) : isoDaysAgo(30 + index * 5),
+          pushedAt: publishedAt,
+          starsPerDay: seed.externalId.includes("sglang") ? 16.5 : 12.0
+        }
+      : undefined
+  };
+});
 
 export const contentById = new Map(mockContent.map((item) => [item.id, item]));

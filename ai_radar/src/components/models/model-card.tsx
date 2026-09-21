@@ -17,10 +17,10 @@ export function ModelCard({ model }: { model: ModelItem }) {
           <SourceBadge source={model.source === "other" ? "other" : model.source} />
           <Badge tone="subtle">{model.pipeline ?? "text-generation"}</Badge>
         </div>
-        <div className="space-y-1">
-          <CardTitle className="editorial-title">{model.name}</CardTitle>
-          <CardDescription>{model.organization}</CardDescription>
-          <p className="text-xs text-muted-foreground">{model.modelId}</p>
+        <div className="space-y-1 min-w-0">
+          <CardTitle className="editorial-title break-words [word-break:break-word]">{model.name}</CardTitle>
+          <CardDescription className="truncate">{model.organization}</CardDescription>
+          <p className="text-xs text-muted-foreground truncate" title={model.modelId}>{model.modelId}</p>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

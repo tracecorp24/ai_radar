@@ -31,23 +31,23 @@ export function PersonCard({
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-gradient-to-br from-primary/15 to-cyan-500/15 font-semibold text-primary">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-border bg-gradient-to-br from-primary/15 to-cyan-500/15 font-semibold text-primary">
               {person.name
                 .split(" ")
                 .map((part) => part[0])
                 .slice(0, 2)
                 .join("")}
             </div>
-            <div>
-              <CardTitle className="editorial-title">{person.name}</CardTitle>
-              <CardDescription>
+            <div className="min-w-0 flex-1">
+              <CardTitle className="editorial-title truncate">{person.name}</CardTitle>
+              <CardDescription className="truncate">
                 {person.role}
                 {person.organization ? ` · ${person.organization}` : ""}
               </CardDescription>
             </div>
           </div>
-          <Badge tone={person.isActive ? "success" : "subtle"}>{person.isActive ? "Takipte" : "Pasif"}</Badge>
+          <Badge tone={person.isActive ? "success" : "subtle"} className="shrink-0">{person.isActive ? "Takipte" : "Pasif"}</Badge>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
           <Badge tone="subtle">{platformLabel(person.platform)}</Badge>

@@ -48,9 +48,9 @@ export function SourceManager({ sources }: { sources: SourceStatus[] }) {
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-4">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="text-base">Kaynak özeti</CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm text-muted-foreground">{totalNew} yeni içerik</span>
             <Button onClick={() => setOpen(true)}>
               <Plus className="h-4 w-4" />

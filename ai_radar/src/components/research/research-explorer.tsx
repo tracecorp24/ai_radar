@@ -137,14 +137,16 @@ export function ResearchExplorer({ items, initialTag = "" }: { items: ContentIte
     <div className="space-y-6">
       <Card className="border-primary/20 bg-primary/5">
         <CardContent className="flex flex-col gap-3 p-4 md:flex-row md:items-center">
-          <div className="relative flex-1">
+          <div className="relative min-w-0 flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input className="pl-9" value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && runSearch()} placeholder="arXiv'de ara: RAG, agents, multimodal..." />
           </div>
-          <Button onClick={runSearch} disabled={loading}>arXiv ara</Button>
-          <Button variant="secondary" onClick={runSemanticSearch} disabled={loading}><BrainCircuit className="h-4 w-4" /> Semantik ara</Button>
-          <Button variant="outline" onClick={syncResearch} disabled={loading}><RefreshCw className="h-4 w-4" /> Güncelle</Button>
-          <Button variant="outline" onClick={categorizeCatalog} disabled={loading}><Tags className="h-4 w-4" /> Kategorize et</Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button onClick={runSearch} disabled={loading}>arXiv ara</Button>
+            <Button variant="secondary" onClick={runSemanticSearch} disabled={loading}><BrainCircuit className="h-4 w-4" /> Semantik ara</Button>
+            <Button variant="outline" onClick={syncResearch} disabled={loading}><RefreshCw className="h-4 w-4" /> Güncelle</Button>
+            <Button variant="outline" onClick={categorizeCatalog} disabled={loading}><Tags className="h-4 w-4" /> Kategorize et</Button>
+          </div>
         </CardContent>
         {message ? <CardContent className="pt-0 text-sm text-muted-foreground">{message}</CardContent> : null}
       </Card>
@@ -152,7 +154,7 @@ export function ResearchExplorer({ items, initialTag = "" }: { items: ContentIte
         <CardHeader>
           <CardTitle className="text-base">Filtreler</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-7">
+        <CardContent className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-7">
           <div className="space-y-2">
             <Label>Kaynak</Label>
             <Select value={source} onChange={(event) => setSource(event.target.value as ContentItem["source"] | "all")}>
